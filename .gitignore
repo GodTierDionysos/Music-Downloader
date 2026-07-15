@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# App runtime data (local)
+settings.json
+history.json
+
+# OS / editor
+Thumbs.db
+Desktop.ini
+.DS_Store
+.idea/
+.vscode/
+
+# Large local caches
+*.log

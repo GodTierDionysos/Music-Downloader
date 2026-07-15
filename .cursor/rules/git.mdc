@@ -1,0 +1,19 @@
+---
+description: Git commit, PR ve versiyon kontrolü kuralları
+alwaysApply: true
+---
+
+# Git
+
+- Commit yalnızca kullanıcı açıkça isterse.
+- `git config` değiştirme; force push / hard reset istemeden yapma.
+- Hook atlama (`--no-verify`) yasak (kullanıcı istemedikçe).
+- Secret içeren dosyaları (`.env`, credentials) commit etme.
+- Commit mesajı kısa, “neden” odaklı; depo diline uy.
+
+## Dikkat
+
+- `build/`, `dist/`, `history.json`, `settings.json` genelde commit edilmemeli (kullanıcı aksini demedikçe).
+- `MusicDownloader.spec` makineye özel path içerebilir; dikkatli ekle.
+---
+

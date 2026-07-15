@@ -1,0 +1,21 @@
+---
+description: PyInstaller derleme ve dağıtım kuralları
+globs: "build.py,*.spec,requirements.txt"
+alwaysApply: false
+---
+
+# Build
+
+## Kaynak
+
+- Tercih edilen giriş: `python build.py` (onefile, windowed, `MusicDownloader`).
+- `MusicDownloader.spec` genelde `build.py` tarafından üretilir; elle path sabitleme riskli.
+
+## Kurallar
+
+- `--hidden-import downloader` ve `customtkinter` data collect korunmalı.
+- `build/` / `dist/` el ile commit etme.
+- Build script'inde paket silme (`shutil.rmtree`) davranışını bozmadan önce bildir.
+- FFmpeg exe'ye gömülü değildir; PATH bağımlılığı bilinçli tasarım.
+---
+

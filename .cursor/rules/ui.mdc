@@ -1,0 +1,31 @@
+---
+description: CustomTkinter UI, tema sistemi ve thread-güvenli arayüz kuralları
+globs: "main.py"
+alwaysApply: false
+---
+
+# UI (main.py)
+
+## Yapı
+
+- Tek pencere: `MusicDownloaderApp(ctk.CTk)`.
+- Bölüm builder'lar: `_build_header`, `_build_url_section`, … sırası ve grid row'ları korunur.
+- Renkler `C` / `THEMES`; font `F`, `F_MONO`.
+
+## Tema
+
+- Tema değişimi `_apply_theme` ile full rebuild yapar; indirme aktifken (`_dl_thread`) uygulama.
+- `settings.json` tema tercihi bozulmamalı.
+- Yeni UI rengi eklerken tema dict anahtarlarına uy.
+
+## Durum
+
+- Playlist satır durumu: `row_status_labels` + `_update_row_status`.
+- Seçim: `check_vars` / `select_all_var` senkronunu bozma.
+- Geçmiş paneli `history.json` ile beslenir; toggle davranışını koru.
+
+## Mock
+
+- `MOCK_PLAYLIST` tasarım önizlemesi içindir; üretim akışına bağlama.
+---
+

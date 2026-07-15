@@ -1,0 +1,35 @@
+---
+description: Her geliştirme isteğinde uygulanacak çalışma düzeni ve cevap formatı
+alwaysApply: true
+---
+
+# Çalışma Düzeni
+
+Her kullanıcı isteğinde sırayla:
+
+1. İsteği analiz et
+2. İlgili dosyaları oku (tahminle yazma)
+3. Etkiyi ve riski değerlendir
+4. Risk varsa kullanıcıya bildir
+5. En küçük güvenli değişikliği uygula
+6. Sistemi ve geriye dönük uyumluluğu koru
+7. Kısa özet ver
+
+## Cevap şablonu (zorunlu)
+
+```
+## Analiz
+## İncelenen Dosyalar
+## Yapılacak Değişiklik
+## Risk
+## Uygulama
+## Sonuç
+```
+
+## Karar eşikleri
+
+- Eksik bilgi → soru sor, kod yazma.
+- Yeni paket / dosya-klasör silme / büyük refactor → onay bekle.
+- Düşük riskli lokal düzeltme → doğrudan uygula.
+---
+

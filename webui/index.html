@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Music Downloader</title>
+  <link rel="icon" type="image/x-icon" href="img/app.ico" />
+  <link rel="stylesheet" href="styles.css?v=20260715e" />
+</head>
+<body data-theme="aurora">
+  <div class="bg-flow" aria-hidden="true"></div>
+  <div class="bg-flow bg-flow-2" aria-hidden="true"></div>
+
+  <div class="app-shell">
+    <header class="hero glass">
+      <div class="hero-brand" aria-hidden="true">
+        <img class="hero-logo" src="img/app-icon.png" alt="" width="44" height="44" />
+      </div>
+      <div class="hero-text">
+        <p class="eyebrow">YouTube</p>
+        <h1>Music Downloader</h1>
+      </div>
+      <nav class="menu" aria-label="Ana menü">
+        <button class="menu-btn active" data-panel="download" type="button">İndir</button>
+        <button class="menu-btn" data-panel="history" type="button">Geçmiş</button>
+        <button class="menu-btn" data-panel="theme" type="button">Tema</button>
+        <button class="menu-btn" data-panel="guide" type="button">Kılavuz</button>
+      </nav>
+    </header>
+
+    <div id="ffmpegBanner" class="ffmpeg-banner">
+      FFmpeg yok — ses dönüşümü için PATH’e ekleyin.
+    </div>
+
+    <!-- İNDİR -->
+    <section id="panel-download" class="panel-stack">
+      <div class="panel glass controls">
+        <div class="url-row">
+          <input id="url" type="text" placeholder="Playlist veya video URL’si…" />
+          <button id="fetchBtn" class="btn" type="button">Getir</button>
+        </div>
+        <div class="options">
+          <select id="format" aria-label="Format" title="Format">
+            <option>MP3</option>
+            <option>MP4</option>
+            <option>FLAC</option>
+            <option>WAV</option>
+            <option>AAC</option>
+            <option>OGG</option>
+            <option>M4A (iOS)</option>
+          </select>
+          <select id="quality" aria-label="Kalite" title="Kalite">
+            <option>En İyi</option>
+            <option>320 kbps</option>
+            <option>256 kbps</option>
+            <option>192 kbps</option>
+            <option>128 kbps</option>
+          </select>
+          <input id="folder" type="text" readonly aria-label="Klasör" />
+          <button id="folderBtn" class="btn ghost" type="button">Klasör</button>
+        </div>
+      </div>
+
+      <div class="panel glass playlist-card">
+        <div class="playlist-head">
+          <h2>Playlist <span id="count" class="count"></span></h2>
+          <label class="check"><input id="selectAll" type="checkbox" checked /> Tümü</label>
+        </div>
+        <div id="list" class="list">
+          <div class="empty">URL yapıştırıp Getir’e bas</div>
+        </div>
+      </div>
+
+      <div class="panel glass dock">
+        <div class="status-row">
+          <span id="status">URL girin</span>
+          <span id="pct"></span>
+        </div>
+        <div class="bar"><i id="barFill"></i></div>
+        <div class="actions">
+          <span id="selected" class="selected"></span>
+          <div class="right">
+            <button id="clearBtn" class="btn ghost" type="button">Temizle</button>
+            <button id="cancelBtn" class="btn ghost danger" type="button" disabled>Durdur</button>
+            <button id="resumeBtn" class="btn ghost" type="button" disabled>Devam Et</button>
+            <button id="downloadBtn" class="btn" type="button">İndir</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-history" class="panel glass hidden">
+      <div class="playlist-head">
+        <h2>Geçmiş</h2>
+        <button id="clearHistoryBtn" class="btn ghost sm" type="button">Temizle</button>
+      </div>
+      <div id="historyList" class="history-list">
+        <div class="empty">Henüz kayıt yok</div>
+      </div>
+    </section>
+
+    <section id="panel-theme" class="panel glass hidden">
+      <div class="playlist-head"><h2>Temalar</h2></div>
+      <div id="themeGrid" class="theme-grid"></div>
+    </section>
+
+    <section id="panel-guide" class="panel glass hidden">
+      <div class="playlist-head"><h2>Kullanım kılavuzu</h2></div>
+      <div class="guide">
+        <ol class="guide-list">
+          <li>
+            <strong>Linki getir</strong>
+            <p>YouTube video veya playlist linkini yapıştır → <em>Getir</em>.</p>
+          </li>
+          <li>
+            <strong>Ayarları seç</strong>
+            <p>Format (MP3, M4A…), kalite ve kayıt klasörünü seç.</p>
+          </li>
+          <li>
+            <strong>İndir</strong>
+            <p>İstediğin parçaları işaretle → <em>İndir</em>. İstersen <em>Durdur</em> / <em>Devam Et</em>.</p>
+          </li>
+          <li>
+            <strong>Bittiğinde</strong>
+            <p>İndirme bitince klasörü açmak isteyip istemediğin sorulur.</p>
+          </li>
+          <li>
+            <strong>İpuçları</strong>
+            <p>Panoya YouTube linki kopyalarsan ekleme sorusu çıkar. Tema paneli görünümü değiştirir. Ayarlar otomatik kaydolur.</p>
+          </li>
+        </ol>
+        <p class="guide-note">Ses dönüşümü için bilgisayarda <strong>FFmpeg</strong> kurulu olmalı.</p>
+      </div>
+    </section>
+  </div>
+
+  <div id="clipModal" class="clip-modal hidden" role="dialog" aria-modal="true" aria-labelledby="clipTitle">
+    <div class="clip-card glass">
+      <h3 id="clipTitle">Panodaki linki ekle?</h3>
+      <p class="clip-hint">Panoda bir YouTube linki var. URL alanına eklensin mi?</p>
+      <p id="clipPreview" class="clip-preview"></p>
+      <div class="clip-actions">
+        <button id="clipNo" class="btn ghost" type="button">Hayır</button>
+        <button id="clipYes" class="btn" type="button">Ekle</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="folderModal" class="clip-modal hidden" role="dialog" aria-modal="true" aria-labelledby="folderTitle">
+    <div class="clip-card glass">
+      <h3 id="folderTitle">Klasör açılsın mı?</h3>
+      <p class="clip-hint">İndirme tamamlandı. Dosyaların kaydedildiği klasörü açmak ister misin?</p>
+      <p id="folderPreview" class="clip-preview"></p>
+      <div class="clip-actions">
+        <button id="folderNo" class="btn ghost" type="button">Hayır</button>
+        <button id="folderYes" class="btn" type="button">Aç</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=20260715e"></script>
+</body>
+</html>

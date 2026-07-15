@@ -1,0 +1,25 @@
+---
+description: Uygulama katmanları, sorumluluk ayrımı ve mimari sınırlar
+alwaysApply: true
+---
+
+# Mimari
+
+## Katmanlar
+
+| Dosya | Sorumluluk |
+|-------|------------|
+| `main.py` | UI (CustomTkinter), state, thread köprüleri, geçmiş/tema |
+| `downloader.py` | yt-dlp: metadata ve indirme; UI bilmez |
+| `build.py` | PyInstaller .exe derleme |
+| `requirements.txt` | Bağımlılık pinleri |
+
+## Kurallar
+
+- UI ↔ indirme: yalnızca callback + `threading.Event` ile konuşur.
+- yt-dlp çağrıları `downloader.py` içinde kalır; `main.py`'ye taşıma.
+- UI güncellemeleri yalnızca ana thread'de (`self.after(...)`).
+- Yeni özellik önce mevcut katmana uyacak şekilde yerleştirilir.
+- Büyük mimari değişikliklerde önce plan sun; onay almadan uygulama.
+---
+
