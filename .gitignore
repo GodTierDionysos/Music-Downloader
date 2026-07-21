@@ -1,0 +1,4 @@
+# Release-only repo - no source
+*
+!.gitignore
+!README.md
